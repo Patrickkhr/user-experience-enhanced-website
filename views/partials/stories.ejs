@@ -1,0 +1,53 @@
+<div>
+  <% if (stories && stories.length > 0) { %>
+    <ul class="Carrousel">
+      <% stories.forEach(story => { %>
+        <li>
+          <a>
+            <% if (story.image) { %>
+            <img src="https://fdnd-agency.directus.app/assets/<%= story.image %>" width="60" height="64"
+            onerror="this.onerror=null;this.src='Placeholder-1.png';" alt="story">
+            <% } %>
+
+            <img src="https://fdnd-agency.directus.app/assets/<%= language.flag %>" width="22" height="16"
+            onerror="this.onerror=null;this.src='Placeholder-2.png';" alt="language flag">
+
+            <div class="story-text">
+              <h4><%= story.title %></h4>
+              <p><%= story.summary %></p>
+
+              <span class="sub-buttons">
+
+                <div>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#3A54DE"/>
+                    <rect width="16.8" height="16.8" transform="translate(3.59961 3.6001)" fill="#3A54DE"/>
+                    <path d="M17.0874 13.0614C17.7817 12.5242 17.7817 11.476 17.0874 10.9387C14.9891 9.31514 12.6461 8.03543 10.146 7.14749L9.68929 6.98528C8.8155 6.67494 7.89254 7.26613 7.77425 8.16812C7.44374 10.6883 7.44374 13.3119 7.77425 15.832C7.89254 16.734 8.8155 17.3252 9.68929 17.0148L10.146 16.8526C12.6461 15.9647 14.9891 14.685 17.0874 13.0614Z" fill="white"/>
+                  </svg>  
+                  <p>3 min. 5sec</p>
+                </div>
+
+                <div>
+                  <button aria-label="download story">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.6875 11.1094H12.6914C14.1416 11.1094 15.3281 10.5501 15.3281 9.11602C15.3281 7.6819 13.9307 7.17882 12.7969 7.12266C12.5625 4.87986 10.9248 3.51562 9 3.51562C7.18066 3.51562 6.00891 4.72298 5.625 5.92031C4.04297 6.07061 2.67188 6.86637 2.67188 8.51484C2.67188 10.1633 4.0957 11.1094 5.83594 11.1094H7.3125" stroke="#B0B0B0" stroke-width="0.84375" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M7.3125 12.7994L9 14.4843L10.6875 12.7994" stroke="#B0B0B0" stroke-width="0.84375" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M9 8.15625V14.0633" stroke="#B0B0B0" stroke-width="0.84375" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>                            
+                  </button>
+
+                  <button aria-label="add to playlist">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="5.5" stroke="#B0B0B0"/>
+                      <rect x="6.42871" y="3" width="6" height="0.857143" rx="0.428571" transform="rotate(90 6.42871 3)" fill="#B0B0B0"/>
+                      <rect x="3" y="5.57141" width="6" height="0.857143" rx="0.428571" fill="#B0B0B0"/>
+                    </svg>
+                  </button>
+                </div>
+              </span>
+            </div>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No stories available.</p>
+  <% } %>
+</div>
