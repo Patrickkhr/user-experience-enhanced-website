@@ -5,12 +5,12 @@
         <li>
           <a>
             <% if (story.image) { %>
-            <img src="https://fdnd-agency.directus.app/assets/<%= story.image %>" width="60" height="64"
-            onerror="this.onerror=null;this.src='Placeholder-1.png';" alt="story">
+            <img src="https://fdnd-agency.directus.app/assets/<%= story.image %>?format=webp" width="60" height="64"
+            loading="lazy" onerror="this.onerror=null;this.src='Placeholder-1.png';" alt="story">
             <% } %>
 
-            <img src="https://fdnd-agency.directus.app/assets/<%= language.flag %>" width="22" height="16"
-            onerror="this.onerror=null;this.src='Placeholder-2.png';" alt="language flag">
+            <img src="https://fdnd-agency.directus.app/assets/<%= language.flag %>?format=webp" width="22" height="16"
+            loading="lazy" onerror="this.onerror=null;this.src='Placeholder-2.png';" alt="language flag">
 
             <div class="story-text">
               <h4><%= story.title %></h4>

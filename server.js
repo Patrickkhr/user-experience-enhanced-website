@@ -69,20 +69,33 @@ let likes = {}
 
 app.post('/:playlistId/like-or-unlike', function(request, response) {
     const playlistId = Number(request.params.playlistId);
-    const action = request.body.action; // Retrieve the value of the 'actie' parameter from the form
-  console.log(action, playlistId)
+    const actionn = request.body.actionn; // Retrieve the value of the 'actie' parameter from the form
+    
+
+  // console.log(actionn, playlistId)
     // Implement the logic to handle liking or unliking the playlist
-    if (action === 'liked') {
+    if (actionn === 'liked') {
       // Handle 'like' action
       likes[playlistId] = true
-      likeIcon.style
-  
-    } else if (action === 'unliked') {
+    } else if (actionn === 'unliked') {
       likes[playlistId] = false
-  
     } 
-    response.redirect(303, '/lessons')
-    })
+
+    if (request.body.enhanced) {
+      // Haal de playlists uit de API op..
+      // Geef die playlists _en_ de likes door aan de liked-playlist.ejs partial, en render die
+      fetchJson('https://fdnd-agency.directus.app/items/tm_playlist').then((playlistData) => {
+        response.render('partials/liked-playlist', {
+          playlist: playlistData.data,
+          likes: likes
+        })
+      });
+      likes[playlistId] = true
+    } else {
+      likes[playlistId] = false
+      response.redirect(303, '/lessons')
+    }
+  })
 
 
 // 3. Start de webserver

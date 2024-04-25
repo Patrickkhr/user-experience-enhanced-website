@@ -41,8 +41,16 @@
       <ul><% playlist.forEach(playlist => { %>
         <li>
           <a>
-            <img class="playlist-img" src="https://fdnd-agency.directus.app/assets/<%= playlist.image %>" width="112" height="95" 
-            onerror="this.onerror=null;this.src='Placeholder-1.png';" alt="playlist">
+            <picture>
+              <% if (playlist.image ==null) { %>
+                <img class="playlist-img" src='Placeholder-1.png' width="112" height="95" loading="lazy">
+              <% } else { %>
+                <source srcset="https://fdnd-agency.directus.app/assets/<%= playlist.image %>?format=avif" type="image/avif">
+                <source srcset="https://fdnd-agency.directus.app/assets/<%= playlist.image %>?format=webp" type="image/webp">
+                <img class="playlist-img" src="https://fdnd-agency.directus.app/assets/<%= playlist.image %>?format=webp" width="112" height="95" 
+                loading="lazy" onerror="this.onerror=null;this.src='Placeholder-1.png';" alt="playlist">
+                <% } %>
+            </picture>
 
             <h3 class="playlist-title"><%= playlist.title %></h3>
 
@@ -54,7 +62,8 @@
               <p>31 min. 55sec</p>
             </div>
           </a>
-        </li><% }) %>
+        </li>
+        <% }) %>
         
         <li> <!-- popup window needs to be added here  -->
           <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +86,7 @@
     <% language.forEach(language => { %>
       <button aria-label="language" type="button">
         <img src="https://fdnd-agency.directus.app/assets/<%= language.flag %>" width="22" height="16"
-          onerror="this.onerror=null;this.src='Placeholder-2.png';" alt="language flag">
+        loading="lazy" onerror="this.onerror=null;this.src='Placeholder-1.png';" alt="language flag">
         <%- language.language %>
       </button>
       <% }) %>
@@ -93,39 +102,13 @@
 
   <section>
     <h2>Liked playlists</h2>
-    <div>
+    <div class="liked-playlist">
       <% if (playlist.filter(playlistItem => likes[playlistItem.id]).length > 0) { %>
-      <ul>
-        <% playlist.filter(playlistItem => likes[playlistItem.id]).forEach(playlistItem => { %>
-        <li>
-          <a>
-            <img src="https://fdnd-agency.directus.app/assets/<%= playlistItem.image %>" width="112" height="95"
-            onerror="this.onerror=null;this.src='Placeholder-1.png';" alt="playlist">
-
-            <h3 class="playlist-title"><%= playlistItem.title %></h3>
-          
-            <div class="play-audio">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#F3A22A"/>
-              <rect width="16.8" height="16.8" transform="translate(3.59961 3.6001)" fill="#F3A22A"/>
-              <path d="M17.0874 13.0614C17.7817 12.5242 17.7817 11.476 17.0874 10.9387C14.9891 9.31514 12.6461 8.03543 10.146 7.14749L9.68929 6.98528C8.8155 6.67494 7.89254 7.26613 7.77425 8.16812C7.44374 10.6883 7.44374 13.3119 7.77425 15.832C7.89254 16.734 8.8155 17.3252 9.68929 17.0148L10.146 16.8526C12.6461 15.9647 14.9891 14.685 17.0874 13.0614Z" fill="white"/>
-              </svg>
-
-              <p>31 min. 55sec</p>
-
-              <form method="POST" action="/<%=playlistItem.id %>/like-or-unlike">
-                  <button type="submit" name="action" value="unliked">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <title>Unlike</title>
-                      <path d="M8.4 5.25C5.61914 5.25 3.25 7.3293 3.25 10.0298C3.25 11.8927 4.12235 13.4612 5.27849 14.7604C6.43066 16.0552 7.91714 17.142 9.26097 18.0516L11.5796 19.6211C11.8335 19.793 12.1665 19.793 12.4204 19.6211L14.739 18.0516C16.0829 17.142 17.5693 16.0552 18.7215 14.7604C19.8777 13.4612 20.75 11.8927 20.75 10.0298C20.75 7.3293 18.3809 5.25 15.6 5.25C14.1665 5.25 12.9052 5.92214 12 6.79183C11.0948 5.92214 9.83347 5.25 8.4 5.25Z" fill="#F33232"/>
-                    </svg>
-                  </button>
-              </form>
-            </div>
-          </a>
-        </li>
-        <% }) %>
-      </ul>
+        <%- include('./partials/liked-playlist') %>
       <% } else { %>
+        <div>
+          <p>You have no liked playlists.</p>
+        </div>
       <% } %>
     </div>
 
@@ -134,38 +117,12 @@
     <div>
       <% if (playlist.filter(playlistItem => !likes[playlistItem.id]).length > 0) { %>
       <ul>
-        <% playlist.filter(playlistItem => !likes[playlistItem.id]).forEach(playlistItem => { %>
-        <li>
-          <a>
-            <img src="https://fdnd-agency.directus.app/assets/<%= playlistItem.image %>" width="112" height="95"
-            onerror="this.onerror=null;this.src='Placeholder-1.png';" alt="playlist">
-
-            <h3 class="playlist-title"><%= playlistItem.title %></h3>
-
-            <div class="play-audio">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#F3A22A"/>
-              <rect width="16.8" height="16.8" transform="translate(3.59961 3.6001)" fill="#F3A22A"/>
-              <path d="M17.0874 13.0614C17.7817 12.5242 17.7817 11.476 17.0874 10.9387C14.9891 9.31514 12.6461 8.03543 10.146 7.14749L9.68929 6.98528C8.8155 6.67494 7.89254 7.26613 7.77425 8.16812C7.44374 10.6883 7.44374 13.3119 7.77425 15.832C7.89254 16.734 8.8155 17.3252 9.68929 17.0148L10.146 16.8526C12.6461 15.9647 14.9891 14.685 17.0874 13.0614Z" fill="white"/>
-              </svg>
-
-              <p>31 min. 55sec</p>
-
-              <form method="POST" action="/<%= playlistItem.id %>/like-or-unlike" class="like-playlist">
-                <% if (!likes[playlistItem.id]) { %> 
-                  <button type="submit" name="action" value="liked">
-                    <input type="hidden" name="like" value="liked">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <title>Like</title>
-                      <path d="M11.6536 7.15238C11.8471 7.33832 12.1529 7.33832 12.3464 7.15238C13.1829 6.34871 14.326 5.75 15.6 5.75C18.1489 5.75 20.25 7.64769 20.25 10.0298C20.25 11.7261 19.4577 13.1809 18.348 14.428C17.2397 15.6736 15.7972 16.7316 14.4588 17.6376L12.1401 19.207C12.0555 19.2643 11.9445 19.2643 11.8599 19.207L9.54125 17.6376C8.20278 16.7316 6.76035 15.6736 5.65201 14.428C4.54225 13.1809 3.75 11.7261 3.75 10.0298C3.75 7.64769 5.85106 5.75 8.4 5.75C9.67403 5.75 10.8171 6.34871 11.6536 7.15238Z" stroke="#C4C4C4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
-              </form>
-            </div>
-          </a>
-        </li>
-        <% }) %>
+        <%- include('./partials/suggested-playlist') %>
       </ul>
       <% } else { %>
+        <div>
+          <p>no suggested playlists</p>
+        </div>
       <% } %>
     </div>
   </section>

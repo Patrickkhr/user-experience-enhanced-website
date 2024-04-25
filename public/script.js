@@ -31,18 +31,24 @@ let forms = document.querySelectorAll('form.like-playlist');
 
 forms.forEach(function(form) {
     form.addEventListener('submit', function(event) {
-        event.preventDefault();
-
+        
+        
         let data = new FormData(this);
-        data.append('enhanced', true);
-
-        let actionUrl = this.getAttribute('action');
-
-        fetch(actionUrl, {
+        data.append("enhanced", true);
+        
+        
+        fetch(this.action, {
             method: this.method,
-            body: new URLSearchParams(data)
+            body: new URLSearchParams(data),
+        })
+        .then(function (response) {
+            return response.text()
+        }).then(function(responseHTML) {
+            document.querySelector(".liked-playlist").innerHTML = responseHTML
+            console.log(responseHTML);
         })
         
+        event.preventDefault();
     });
 });
 
